@@ -17,12 +17,14 @@ namespace PromoCodeFactory.DataAccess.Repositories
 
         public Task<IEnumerable<T>> GetAllAsync()
         {
-            return Task.FromResult(Data);
+            var existsEmployees = Data.Where(x => !x.IsDeleted);
+            
+            return Task.FromResult(existsEmployees);
         }
 
         public Task<T> GetByIdAsync(Guid id)
         {
-            return Task.FromResult(Data.FirstOrDefault(x => x.Id == id));
+            return Task.FromResult(Data.FirstOrDefault(x => x.Id == id && !x.IsDeleted));
         }
     }
 }
